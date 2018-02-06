@@ -32,8 +32,8 @@ class FallbackPersonaSkill(FallbackSkill):
         response_obj = requests.get(self.persona_url + url_encode).json()
         if float(response_obj['confidence']) < 0.7:
             return False
-            response = response_obj['response']
-            self.speak(response)
+        response = response_obj['response']
+        self.speak(response)
         return True
 
 
