@@ -20,7 +20,7 @@ import urllib
 class FallbackPersonaSkill(FallbackSkill):
     def __init__(self):
         FallbackSkill.__init__(self)
-        self.persona_url = "http://precise.mycroft.ai/persona/api/persona/?"
+        self.persona_url = "http://training.mycroft.ai/persona/api/persona/?"
 
     def initialize(self):
         self.register_fallback(self.handle_fallback_persona, 8)
