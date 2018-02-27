@@ -15,6 +15,7 @@
 from mycroft import FallbackSkill, intent_handler
 import requests
 import urllib
+import eventlet
 
 
 class FallbackPersonaSkill(FallbackSkill):
@@ -29,12 +30,18 @@ class FallbackPersonaSkill(FallbackSkill):
         query = message.data['utterance']
         query_obj = {"query": query}
         url_encode = urllib.urlencode(query_obj)
-        response_obj = requests.get(self.persona_url + url_encode).json()
-        if float(response_obj['confidence']) < 0.7:
+        try:
+            with eventlet.Timeout(3):
+                response_obj = \
+                    requests.get(self.persona_url + url_encode).json()
+            if float(response_obj['confidence']) < 0.7:
+                return False
+            response = response_obj['response']
+            self.speak(response)
+            return True
+        except:
+            self.log.info("error in persona fallback request")
             return False
-        response = response_obj['response']
-        self.speak(response)
-        return True
 
 
 def create_skill():
