@@ -29,7 +29,7 @@ class FallbackPersonaSkill(FallbackSkill):
     def handle_fallback_persona(self, message):
         query = message.data['utterance']
         query_obj = {"query": query}
-        url_encode = urllib.urlencode(query_obj)
+        url_encode = urllib.parse.urlencode(query_obj)
         try:
             with eventlet.Timeout(3):
                 response_obj = \
